@@ -74,14 +74,14 @@ RSpec.describe 'landing page', type: :feature do
       describe 'Logging In - Happy Path' do
         describe 'When I enter my unique email and correct password' do
           it 'I am taken to my dashboard page' do
-            # user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
-            user = User.create(name: 'becka', email: 'rebecka@gmail.com', password: 'password123')
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+
             visit login_path
-            # binding.pry
+
             fill_in :email, with: user.email
             fill_in :password, with: user.password
             click_button 'Log In'
-            # binding.pry
+
             expect(current_path).to eq(user_path(user))
           end
         end
