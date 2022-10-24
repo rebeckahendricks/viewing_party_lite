@@ -21,9 +21,12 @@ RSpec.describe 'landing page', type: :feature do
 
   describe 'list of existing users' do
     before :each do
-      @user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
-      @user2 = User.create!(name: 'Mike', email: 'mike@turing.edu')
-      @user3 = User.create!(name: 'Meg', email: 'mstang@turing.edu')
+      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+      @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+      @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
+      # @user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
+      # @user2 = User.create!(name: 'Mike', email: 'mike@turing.edu')
+      # @user3 = User.create!(name: 'Meg', email: 'mstang@turing.edu')
     end
 
     it 'has a list of existing user which links to the users dashboard' do

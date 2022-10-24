@@ -25,7 +25,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
 
   describe 'When I visit movies detail page' do
     it 'I see a button to create a viewing party' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -37,7 +37,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'I see a button to return to the Discover Page' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -51,7 +51,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
 
   describe 'I should see the following information about the movie' do
     it 'has a movie title' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -59,7 +59,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has a vote average' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -67,7 +67,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has a runtime' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -75,7 +75,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has genre(s)' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -83,7 +83,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has a summary description' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -94,7 +94,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'lists the first 10 cast members' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -107,7 +107,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has a count of total reviews' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 
@@ -117,7 +117,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has each reviews author and info' do
-      user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit user_movie_path(user1, 238)
 

@@ -20,7 +20,7 @@ RSpec.describe 'User Registration Page', type: :feature do
 
   describe 'User Registration Form - Sad Path' do
     it 'can only create a user when the email is unique' do
-      @user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
+      @user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
 
       visit '/register'
 
