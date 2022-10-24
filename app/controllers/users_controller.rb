@@ -14,6 +14,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       redirect_to user_path(@user), notice: 'User was successfully created'
+    elsif user_params[:password] != user_params[:password_confirmation]
+      redirect_to '/register', notice: 'Confirmation password must match password'
     else
       redirect_to '/register', notice: 'User not created'
     end
