@@ -7,5 +7,11 @@
   <%= f.label :email %>
   <%= f.email_field :email %><br>
 
+  <%= f.label :password %>
+  <%= f.password_field :password %><br>
+
+  <%= f.label :password_confirmation, 'Password Confirmation' %>
+  <%= f.password_field :password_confirmation %><br>
+
   <%= f.submit "Create New User" %>
 <% end %>
