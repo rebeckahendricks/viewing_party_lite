@@ -71,16 +71,48 @@ RSpec.describe 'landing page', type: :feature do
         end
       end
 
-      describe 'When I enter my unique email and correct password' do
-        it 'I am taken to my dashboard page' do
-          user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
-          visit login_path
+      describe 'Logging In - Happy Path' do
+        describe 'When I enter my unique email and correct password' do
+          it 'I am taken to my dashboard page' do
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+            visit login_path
 
-          fill_in :email, with: user.email
-          fill_in :password, with: user.password
-          click_button 'Log In'
+            fill_in :email, with: user.email
+            fill_in :password, with: user.password
+            click_button 'Log In'
 
-          expect(current_path).to eq(user_path(user))
+            expect(current_path).to eq(user_path(user))
+          end
+        end
+      end
+
+      describe 'Logging In - Sad Path' do
+        describe 'When I fail to fill in my correct credentials' do
+          describe 'I am taken back to the Log In page, and I can see a flash message telling me that I entered incorrect credentials' do
+            it 'Incorrect Password' do
+              user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+              visit login_path
+
+              fill_in :email, with: user.email
+              fill_in :password, with: 'password321'
+              click_button 'Log In'
+
+              expect(current_path).to eq(login_path)
+              expect(page).to have_content('Sorry, either your email or your password is incorrect.')
+            end
+
+            it 'Incorrect email' do
+              user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+              visit login_path
+
+              fill_in :email, with: 'rebecca@email.com'
+              fill_in :password, with: user.password
+              click_button 'Log In'
+
+              expect(current_path).to eq(login_path)
+              expect(page).to have_content('Sorry, either your email or your password is incorrect.')
+            end
+          end
         end
       end
     end
