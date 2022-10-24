@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'User Registration Page', type: :feature do
   describe 'User Registration Form - Happy Path' do
-    it 'has a form to create a new user' do
+    it 'I see a form to fill in my name, email, password, and password confirmation' do
       visit '/register'
 
       fill_in('Name', with: 'Becka')
       fill_in('Email', with: 'rebecka@gmail.com')
+      fill_in('Password', with: 'password')
+      fill_in('Password Confirmation', with: 'password')
 
       click_button 'Create New User'
 
