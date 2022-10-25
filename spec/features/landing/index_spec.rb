@@ -26,20 +26,14 @@ RSpec.describe 'landing page', type: :feature do
       @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
     end
 
-    it 'has a list of existing user which links to the users dashboard' do
+    it 'has a list of existing users' do
       visit '/'
 
       within '#existing_users' do
-        expect(page).to have_link("epintozzi@turing.edu's Dashboard")
-        expect(page).to have_link("mike@turing.edu's Dashboard")
-        expect(page).to have_link("mstang@turing.edu's Dashboard")
+        expect(page).to have_content('epintozzi@turing.edu')
+        expect(page).to have_content('mike@turing.edu')
+        expect(page).to have_content('mstang@turing.edu')
       end
-
-      within '#existing_users' do
-        click_link("epintozzi@turing.edu's Dashboard")
-      end
-
-      expect(current_path).to eq("/users/#{@user1.id}")
     end
   end
 
@@ -82,7 +76,7 @@ RSpec.describe 'landing page', type: :feature do
             fill_in :password, with: user.password
             click_button 'Log In'
 
-            expect(current_path).to eq(user_path(user))
+            expect(current_path).to eq(dashboard_path)
           end
         end
       end

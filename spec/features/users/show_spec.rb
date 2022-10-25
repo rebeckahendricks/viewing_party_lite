@@ -7,7 +7,9 @@ RSpec.describe 'User Dashboard Page' do
       @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
       @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
 
-      visit user_path(@user1)
+      allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user1.id)
+
+      visit dashboard_path
 
       expect(page).to have_content("Erin's Dashboard")
       expect(page).to_not have_content("Mike's Dashboard")
@@ -16,14 +18,16 @@ RSpec.describe 'User Dashboard Page' do
 
     it 'has a button to Discover Movies' do
       @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
-      visit user_path(@user1)
+      allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user1.id)
+      visit dashboard_path
 
       expect(page).to have_button('Discover Movies')
     end
 
     it 'when I click the Discover Movies button, I am redirected to the discover page' do
       @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
-      visit user_path(@user1)
+      allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user1.id)
+      visit dashboard_path
 
       click_button 'Discover Movies'
 
@@ -108,7 +112,8 @@ RSpec.describe 'User Dashboard Page' do
 
       describe 'I am invited to the event' do
         it 'I see who is hosting the event' do
-          visit user_path(@user2)
+          allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user2.id)
+          visit dashboard_path
 
           within '#viewing_party_238' do
             expect(page).to have_content('Host: Erin (epintozzi@turing.edu)')
@@ -116,7 +121,8 @@ RSpec.describe 'User Dashboard Page' do
         end
 
         it 'I see a list of users invited, with my name in bold' do
-          visit user_path(@user2)
+          allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user2.id)
+          visit dashboard_path
 
           within '#viewing_party_238' do
             expect(page).to have_content('Mike (mike@turing.edu)')

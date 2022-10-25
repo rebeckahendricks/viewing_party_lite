@@ -10,9 +10,10 @@ class ViewingPartyController < ApplicationController
     @user = User.find(params[:user_id])
     @viewing_party = ViewingParty.new(viewing_party_params)
     if @viewing_party.save
-      UserViewingParty.create(user_id: params[:user_id], viewing_party_id: @viewing_party.id, role: 0)
+      session[:user_id] = @user.id
+      UserViewingParty.create(user_id: session[:user_id], viewing_party_id: @viewing_party.id, role: 0)
       params[:user_ids]&.each { |user_id| UserViewingParty.create(user_id: user_id, viewing_party_id: @viewing_party.id, role: 1) }
-      redirect_to user_path(@user)
+      redirect_to dashboard_path
     else
       redirect_to new_user_movie_viewing_party_path(@user, params[:movie_id]), notice: 'Viewing Party Not Created'
     end
