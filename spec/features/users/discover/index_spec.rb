@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Discover Movies Page', type: :feature do
   describe 'When I visit the user_discover_index_path, I should see' do
     it 'has a button to discover top rated movies' do
-      # user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
       user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
 
       visit user_discover_index_path(user1)

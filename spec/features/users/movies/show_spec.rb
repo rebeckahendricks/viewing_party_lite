@@ -128,4 +128,19 @@ RSpec.describe 'Movie Details Page', type: :feature do
       end
     end
   end
+
+  describe 'As a visitor' do
+    describe 'If I got to a movies show page and I click the button to create a viewing party' do
+      it 'I am redirected to the movies show page, and a message appears to let me know I must be logged in or registered to create a movie party' do
+        user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
+
+        visit user_movie_path(user1, 238)
+
+        click_button 'Create Viewing Party for The Godfather'
+
+        expect(current_path).to eq(user_movie_path(user1, 238))
+        expect(page).to have_content('You must be logged in or registered to create a movie party')
+      end
+    end
+  end
 end

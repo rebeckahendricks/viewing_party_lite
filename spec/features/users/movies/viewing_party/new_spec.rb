@@ -11,6 +11,11 @@ RSpec.describe 'New viewing party page', type: :feature do
     stub_request(:get, 'https://api.themoviedb.org/3/movie/238/images').
       with(query: {'api_key' => ENV['movie_api_key']}).
       to_return(status: 200, body: json_response2) 
+
+    json_response3 = File.open('./fixtures/godfather_cast.json')
+    stub_request(:get, 'https://api.themoviedb.org/3/movie/238/credits').
+      with(query: {'api_key' => ENV['movie_api_key']}).
+      to_return(status: 200, body: json_response3)
   end
   describe 'When I visit the new viewing party page' do
     it 'I should see the name of the movie title rendered above a form' do
@@ -124,11 +129,6 @@ RSpec.describe 'New viewing party page', type: :feature do
 
       expect(page).to have_content('The Godfather')
       expect(page).to have_content('Hosting')
-
-      # visit dashboard_path
-
-      # expect(page).to_not have_content('The Godfather')
-      # expect(page).to_not have_content('Invited')
     end
   end
 
