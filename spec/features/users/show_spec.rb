@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'User Dashboard Page' do
   describe "when I visit '/users/:id' where :id is a valid user, I should see" do
     it "has '<user's name>'s Dashboard' at the top of the page" do
-      @user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
-      @user2 = User.create!(name: 'Mike', email: 'mike@turing.edu')
-      @user3 = User.create!(name: 'Meg', email: 'mstang@turing.edu')
+      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+      @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+      @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
 
       visit user_path(@user1)
 
@@ -15,14 +15,14 @@ RSpec.describe 'User Dashboard Page' do
     end
 
     it 'has a button to Discover Movies' do
-      @user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
+      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
       visit user_path(@user1)
 
       expect(page).to have_button('Discover Movies')
     end
 
     it 'when I click the Discover Movies button, I am redirected to the discover page' do
-      @user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
+      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
       visit user_path(@user1)
 
       click_button 'Discover Movies'
@@ -47,14 +47,14 @@ RSpec.describe 'User Dashboard Page' do
           with(query: {'api_key' => ENV['movie_api_key']}).
           to_return(status: 200, body: json_response)
 
-        @user1 = User.create!(name: 'Becka', email: 'rebecka@gmail.com')
-        @user2 = User.create!(name: 'Mike', email: 'mike@turing.edu')
-        @user3 = User.create!(name: 'Meg', email: 'mstang@turing.edu')
+        @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+        @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+        @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
 
         visit new_user_movie_viewing_party_path(@user1, 238)
 
         fill_in('Duration of Party', with: 200)
-        fill_in('Day', with: Date.today)
+        fill_in('Day', with: 'Tue, 25 Oct 2022')
         fill_in('Start Time', with: '7:00 PM')
 
         within "#invitee_#{@user2.name}" do
@@ -86,7 +86,7 @@ RSpec.describe 'User Dashboard Page' do
 
       it 'I see the date and time of the event' do
         within '#viewing_party_238' do
-          expect(page).to have_content('October 14, 2022')
+          expect(page).to have_content('October 25, 2022')
           expect(page).to have_content('07:00 PM')
         end
       end
@@ -111,7 +111,7 @@ RSpec.describe 'User Dashboard Page' do
           visit user_path(@user2)
 
           within '#viewing_party_238' do
-            expect(page).to have_content('Host: Becka (rebecka@gmail.com)')
+            expect(page).to have_content('Host: Erin (epintozzi@turing.edu)')
           end
         end
 

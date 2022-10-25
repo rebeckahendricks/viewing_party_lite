@@ -21,9 +21,9 @@ RSpec.describe 'landing page', type: :feature do
 
   describe 'list of existing users' do
     before :each do
-      @user1 = User.create!(name: 'Erin', email: 'epintozzi@turing.edu')
-      @user2 = User.create!(name: 'Mike', email: 'mike@turing.edu')
-      @user3 = User.create!(name: 'Meg', email: 'mstang@turing.edu')
+      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+      @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+      @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
     end
 
     it 'has a list of existing user which links to the users dashboard' do
@@ -50,6 +50,72 @@ RSpec.describe 'landing page', type: :feature do
       expect(page).to have_link('Home')
       click_link('Home')
       expect(current_path).to eq('/')
+    end
+  end
+
+  describe 'As a registered user' do
+    describe 'When I visit the landing page "/"' do
+      it 'I see a link for "Log In"' do
+        visit '/'
+
+        expect(page).to have_button('Log In')
+      end
+
+      describe 'When I click on "Log In"' do
+        it 'I am taken to a Log In page ("/login") where I can input my unique email and password"' do
+          visit '/'
+
+          click_button('Log In')
+
+          expect(current_path).to eq(login_path)
+        end
+      end
+
+      describe 'Logging In - Happy Path' do
+        describe 'When I enter my unique email and correct password' do
+          it 'I am taken to my dashboard page' do
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+
+            visit login_path
+
+            fill_in :email, with: user.email
+            fill_in :password, with: user.password
+            click_button 'Log In'
+
+            expect(current_path).to eq(user_path(user))
+          end
+        end
+      end
+
+      describe 'Logging In - Sad Path' do
+        describe 'When I fail to fill in my correct credentials' do
+          describe 'I am taken back to the Log In page, and I can see a flash message telling me that I entered incorrect credentials' do
+            it 'Incorrect Password' do
+              user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+              visit login_path
+
+              fill_in :email, with: user.email
+              fill_in :password, with: 'password321'
+              click_button 'Log In'
+
+              expect(current_path).to eq(login_path)
+              expect(page).to have_content('Sorry, either your email or your password is incorrect.')
+            end
+
+            it 'Incorrect email' do
+              user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+              visit login_path
+
+              fill_in :email, with: 'rebecca@email.com'
+              fill_in :password, with: user.password
+              click_button 'Log In'
+
+              expect(current_path).to eq(login_path)
+              expect(page).to have_content('Sorry, either your email or your password is incorrect.')
+            end
+          end
+        end
+      end
     end
   end
 end
