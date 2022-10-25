@@ -19,24 +19,6 @@ RSpec.describe 'landing page', type: :feature do
     end
   end
 
-  describe 'list of existing users' do
-    before :each do
-      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
-      @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
-      @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
-    end
-
-    it 'has a list of existing users' do
-      visit '/'
-
-      within '#existing_users' do
-        expect(page).to have_content('epintozzi@turing.edu')
-        expect(page).to have_content('mike@turing.edu')
-        expect(page).to have_content('mstang@turing.edu')
-      end
-    end
-  end
-
   describe ' link to go back to landing page' do
     it 'has a link to go back to the landing page' do
       visit '/'
@@ -151,6 +133,43 @@ RSpec.describe 'landing page', type: :feature do
             expect(page).to_not have_button('Log Out')
           end
         end
+      end
+    end
+
+    it 'has a list of existing users' do
+      user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+      user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+      user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+      user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
+
+      visit login_path
+
+      fill_in :email, with: user.email
+      fill_in :password, with: user.password
+      click_button 'Log In'
+
+      visit '/'
+
+      within '#existing_users' do
+        expect(page).to have_content('epintozzi@turing.edu')
+        expect(page).to have_content('mike@turing.edu')
+        expect(page).to have_content('mstang@turing.edu')
+      end
+    end
+  end
+
+  describe 'As a visitor' do
+    describe 'when I visit the landing page' do
+      it 'I do not see the section of the page that lists existing users' do
+        visit '/'
+
+        @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+        @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+        @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
+
+        expect(page).to_not have_content('epintozzi@turing.edu')
+        expect(page).to_not have_content('mike@turing.edu')
+        expect(page).to_not have_content('mstang@turing.edu')
       end
     end
   end

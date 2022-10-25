@@ -3,10 +3,10 @@
   <%= button_to "Create a New User", "/register", method: :get %><br>
 <% else %>
   <%= button_to "Log Out" %><br>
-<% end %>
 
-<div id="existing_users"> Existing Users:<br>
+  <div id="existing_users"> Existing Users:<br>
   <% @users.each do |user| %>
     <p><%= user.email %></p>
   <% end %>
 </div>
+<% end %>
