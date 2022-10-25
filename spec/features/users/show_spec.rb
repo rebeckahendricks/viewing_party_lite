@@ -54,7 +54,7 @@ RSpec.describe 'User Dashboard Page' do
         visit new_user_movie_viewing_party_path(@user1, 238)
 
         fill_in('Duration of Party', with: 200)
-        fill_in('Day', with: Date.today)
+        fill_in('Day', with: 'Tue, 25 Oct 2022')
         fill_in('Start Time', with: '7:00 PM')
 
         within "#invitee_#{@user2.name}" do
@@ -86,7 +86,7 @@ RSpec.describe 'User Dashboard Page' do
 
       it 'I see the date and time of the event' do
         within '#viewing_party_238' do
-          expect(page).to have_content('October 24, 2022')
+          expect(page).to have_content('October 25, 2022')
           expect(page).to have_content('07:00 PM')
         end
       end
