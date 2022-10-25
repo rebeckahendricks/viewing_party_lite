@@ -171,6 +171,17 @@ RSpec.describe 'landing page', type: :feature do
         expect(page).to_not have_content('mike@turing.edu')
         expect(page).to_not have_content('mstang@turing.edu')
       end
+
+      describe 'and then try to visit "/dashboard"' do
+        it 'I remain on the landing page and I see a message telling me that I must be logged in or registered to access my dashboard' do
+          visit '/'
+
+          visit '/dashboard'
+
+          expect(current_path).to eq('/')
+          expect(page).to have_content('You must be logged in or registered to access my dashboard')
+        end
+      end
     end
   end
 end

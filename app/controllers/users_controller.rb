@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
   def show
-    @user = User.find(user_id_in_session)
-    @users = User.all
-    @movies = @user.viewing_parties.map { |party| MoviesFacade.find_movie(party.movie_id) }
-    @user_viewing_parties = UserViewingParty.all
+    if user_id_in_session
+      @user = User.find(user_id_in_session)
+      @users = User.all
+      @movies = @user.viewing_parties.map { |party| MoviesFacade.find_movie(party.movie_id) }
+      @user_viewing_parties = UserViewingParty.all
+    else
+      redirect_to '/', notice: 'You must be logged in or registered to access my dashboard'
+    end
   end
 
   def new
