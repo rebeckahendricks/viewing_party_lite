@@ -110,6 +110,48 @@ RSpec.describe 'landing page', type: :feature do
           end
         end
       end
+
+      describe 'Logging Out' do
+        describe 'As a logged in user, when I visit the landing page' do
+          it 'I no longer see a link to Log In or Create an Account, but I see a link to Log Out' do
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+
+            visit login_path
+
+            fill_in :email, with: user.email
+            fill_in :password, with: user.password
+            click_button 'Log In'
+
+            visit '/'
+
+            expect(page).to_not have_button('Log In')
+            expect(page).to_not have_button('Create a New User')
+            expect(page).to have_button('Log Out')
+          end
+        end
+
+        describe 'When I click the button to Log out' do 
+          it 'I am taken to the landing page and I can see that the Logout button has change back to a log in button' do
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+
+            visit login_path
+
+            fill_in :email, with: user.email
+            fill_in :password, with: user.password
+            click_button 'Log In'
+
+            visit '/'
+
+            click_button 'Log Out'
+
+            expect(current_path).to eq('/')
+
+            expect(page).to have_button('Log In')
+            expect(page).to have_button('Create a New User')
+            expect(page).to_not have_button('Log Out')
+          end
+        end
+      end
     end
   end
 end
