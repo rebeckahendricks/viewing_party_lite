@@ -1,24 +1,24 @@
 class ViewingPartyController < ApplicationController
   def new
-    @user = User.find(params[:user_id])
-    @movie = MoviesFacade.find_movie(params[:movie_id])
-    @users = User.all
-    @viewing_party = ViewingParty.new
-    # if !session[:user_id]
-    #   redirect_to user_movie_path(params[:user_id], params[:movie_id]), notice: 'You must be logged in or registered to create a movie party'
-    # end
+    if user_id_in_session
+      @user = User.find(user_id_in_session)
+      @movie = MoviesFacade.find_movie(params[:movie_id])
+      @users = User.all
+      @viewing_party = ViewingParty.new
+    else
+      redirect_to movie_path(params[:movie_id]), notice: 'You must be logged in or registered to create a movie party'
+    end
   end
 
   def create
-    @user = User.find(params[:user_id])
+    @user = User.find(user_id_in_session)
     @viewing_party = ViewingParty.new(viewing_party_params)
     if @viewing_party.save
-      session[:user_id] = @user.id
-      UserViewingParty.create(user_id: session[:user_id], viewing_party_id: @viewing_party.id, role: 0)
+      UserViewingParty.create(user_id: user_id_in_session, viewing_party_id: @viewing_party.id, role: 0)
       params[:user_ids]&.each { |user_id| UserViewingParty.create(user_id: user_id, viewing_party_id: @viewing_party.id, role: 1) }
       redirect_to dashboard_path
     else
-      redirect_to new_user_movie_viewing_party_path(@user, params[:movie_id]), notice: 'Viewing Party Not Created'
+      redirect_to new_movie_viewing_party_path(params[:movie_id]), notice: 'Viewing Party Not Created'
     end
   end
 

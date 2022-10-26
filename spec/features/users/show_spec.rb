@@ -31,7 +31,7 @@ RSpec.describe 'User Dashboard Page' do
 
       click_button 'Discover Movies'
 
-      expect(current_path).to eq(user_discover_index_path(@user1))
+      expect(current_path).to eq(discover_path)
     end
 
     describe 'Viewing Parties' do
@@ -51,11 +51,22 @@ RSpec.describe 'User Dashboard Page' do
           with(query: {'api_key' => ENV['movie_api_key']}).
           to_return(status: 200, body: json_response)
 
+        json_response4 = File.open('./fixtures/godfather_cast.json')
+        stub_request(:get, 'https://api.themoviedb.org/3/movie/238/credits').
+          with(query: {'api_key' => ENV['movie_api_key']}).
+          to_return(status: 200, body: json_response4)
+        
+        json_response5 = File.open('./fixtures/godfather_reviews.json')
+        stub_request(:get, 'https://api.themoviedb.org/3/movie/238/reviews').
+          with(query: {'api_key' => ENV['movie_api_key']}).
+          to_return(status: 200, body: json_response5)
+
         @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
         @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
         @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
 
-        visit new_user_movie_viewing_party_path(@user1, 238)
+        allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user1.id)
+        visit new_movie_viewing_party_path(238)
 
         fill_in('Duration of Party', with: 200)
         fill_in('Day', with: 'Tue, 25 Oct 2022')

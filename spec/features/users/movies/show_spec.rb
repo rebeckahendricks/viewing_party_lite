@@ -25,67 +25,56 @@ RSpec.describe 'Movie Details Page', type: :feature do
 
   describe 'When I visit movies detail page' do
     it 'I see a button to create a viewing party' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
+      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+      allow_any_instance_of(ApplicationController).to receive(:user_id_in_session).and_return(@user1.id)
 
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       expect(page).to have_button('Create Viewing Party for The Godfather')
 
       click_button('Create Viewing Party for The Godfather')
 
-      expect(current_path).to eq(new_user_movie_viewing_party_path(user1, 238))
+      expect(current_path).to eq(new_movie_viewing_party_path(238))
     end
 
     it 'I see a button to return to the Discover Page' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       expect(page).to have_button('Discover Page')
 
       click_button('Discover Page')
 
-      expect(current_path).to eq(user_discover_index_path(user1))
+      expect(current_path).to eq(discover_path)
     end
   end
 
   describe 'I should see the following information about the movie' do
     it 'has a movie title' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       expect(page).to have_content('The Godfather')
     end
 
     it 'has a vote average' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       expect(page).to have_content('Vote Average: 8.7')
     end
 
     it 'has a runtime' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       expect(page).to have_content('Runtime: 2hr 55min')
     end
 
     it 'has genre(s)' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       expect(page).to have_content('Genre(s): Drama, Crime')
     end
 
     it 'has a summary description' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       within('#summary') do
         expect(page).to have_content('Spanning the years 1945 to 1955')
@@ -94,9 +83,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'lists the first 10 cast members' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       within('#cast') do
         expect(page).to have_css('div', maximum: 10)
@@ -107,9 +94,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has a count of total reviews' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       within('#reviews') do
         expect(page).to have_content('2 Reviews')
@@ -117,9 +102,7 @@ RSpec.describe 'Movie Details Page', type: :feature do
     end
 
     it 'has each reviews author and info' do
-      user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-      visit user_movie_path(user1, 238)
+      visit movie_path(238)
 
       within('#reviews') do
         expect(page).to have_content('Author: futuretv')
@@ -132,13 +115,11 @@ RSpec.describe 'Movie Details Page', type: :feature do
   describe 'As a visitor' do
     describe 'If I got to a movies show page and I click the button to create a viewing party' do
       it 'I am redirected to the movies show page, and a message appears to let me know I must be logged in or registered to create a movie party' do
-        user1 = create(:user, name: 'Becka', email: 'rebecka@gmail.com')
-
-        visit user_movie_path(user1, 238)
+        visit movie_path(238)
 
         click_button 'Create Viewing Party for The Godfather'
 
-        expect(current_path).to eq(user_movie_path(user1, 238))
+        expect(current_path).to eq(movie_path(238))
         expect(page).to have_content('You must be logged in or registered to create a movie party')
       end
     end

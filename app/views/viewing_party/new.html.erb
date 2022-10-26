@@ -1,6 +1,6 @@
 <h2>Create a Movie Party for <%= @movie.title %></h2>
 
-<%= form_with model: @viewing_party, url: user_movie_viewing_party_index_path(@user, @movie.movie_id), local: true do |f| %>
+<%= form_with model: @viewing_party, url: movie_viewing_party_index_path(@movie.movie_id), local: true do |f| %>
   <%= f.label :duration, 'Duration of Party' %>
   <%= f.number_field :duration, min: @movie.runtime, value: @movie.runtime %><br>
 
@@ -15,10 +15,10 @@
   <%= f.label :invitees, 'Invite Other Users' %><br>
   <% @users.each do |user| %>
     <div id="invitee_<%= "#{user.name}" %>">
-      <% if user.id != @user.id %>
+      <%# <% if user.id != @user.id %> %>
         <%= check_box_tag('user_ids[]', user.id) %>
         <%= label_tag('invitee', "#{user.name} (#{user.email})") %>
-      <% end %>
+      <%# <% end %> %>
     </div>
   <% end %><br>
 
