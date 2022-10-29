@@ -1,28 +1,32 @@
-<h3><%= @movie.title %></h3>
+<h2><%= @movie.title %></h2>
 
 <%= button_to 'Discover Page', discover_path, method: :get %><br>
-<%= button_to "Create Viewing Party for #{@movie.title}", new_movie_viewing_party_path(params[:id]), method: :get %>
+<%= button_to "Create Viewing Party for #{@movie.title}", new_movie_viewing_party_path(params[:id]), method: :get %><br>
+
+<% if @movie.image_path %>
+  <%= image_tag("https://image.tmdb.org/t/p/w300/#{@movie.image_path}", id: "image_#{@movie.movie_id}") %><br>
+<% end %><br>
 
 <p><b>Vote Average:</b> <%= @movie.vote_average %><p>
 <p><b>Runtime:</b> <%= @movie.runtime/60 %>hr <%=@movie.runtime%60 %>min</p>
 <p><b>Genre(s):</b> <%= @movie.genres.each { |genre| genre }.join(', ')%>
 
 <div style="text-align:left;" id="summary">
-  <h4>Summary:</h4>
+  <h3>Summary:</h3>
     <%= @movie.summary %>
 </div><br>
 
 <div style="text-align:left;" id="cast">
-  <h4>Cast:</h4>
+  <h3>Cast:</h3>
     <% @cast.first(10).each do |cast| %>
       <%= cast.name %> as <%= cast.character%><br>
     <% end %>
 </div>
 
 <div style="text-align:left;" id="reviews">
-  <h4><%= @reviews.count %> Reviews</h4>
+  <h3><%= @reviews.count %> Reviews</h3>
     <% @reviews.each do |review| %>
-      <h5>Author: <%= review.author %> </h5><br>
+      <h4>Author: <%= review.author %> </h4>
       <%= review.content %>
     <% end %>
 </div>

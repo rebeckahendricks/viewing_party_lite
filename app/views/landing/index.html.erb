@@ -4,9 +4,10 @@
 <% else %>
   <%= button_to "Log Out" %><br>
 
-  <div id="existing_users"> Existing Users:<br>
+  <div id="existing_users"> 
+  <h4>Existing Users:</h4>
   <% @users.each do |user| %>
-    <p><%= user.email %></p>
+    <div><%= user.email %></div>
   <% end %>
 </div>
 <% end %>
