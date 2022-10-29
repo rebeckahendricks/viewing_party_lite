@@ -19,30 +19,6 @@ RSpec.describe 'landing page', type: :feature do
     end
   end
 
-  describe 'list of existing users' do
-    before :each do
-      @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
-      @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
-      @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
-    end
-
-    it 'has a list of existing user which links to the users dashboard' do
-      visit '/'
-
-      within '#existing_users' do
-        expect(page).to have_link("epintozzi@turing.edu's Dashboard")
-        expect(page).to have_link("mike@turing.edu's Dashboard")
-        expect(page).to have_link("mstang@turing.edu's Dashboard")
-      end
-
-      within '#existing_users' do
-        click_link("epintozzi@turing.edu's Dashboard")
-      end
-
-      expect(current_path).to eq("/users/#{@user1.id}")
-    end
-  end
-
   describe ' link to go back to landing page' do
     it 'has a link to go back to the landing page' do
       visit '/'
@@ -82,7 +58,7 @@ RSpec.describe 'landing page', type: :feature do
             fill_in :password, with: user.password
             click_button 'Log In'
 
-            expect(current_path).to eq(user_path(user))
+            expect(current_path).to eq(dashboard_path)
           end
         end
       end
@@ -114,6 +90,96 @@ RSpec.describe 'landing page', type: :feature do
               expect(page).to have_content('Sorry, either your email or your password is incorrect.')
             end
           end
+        end
+      end
+
+      describe 'Logging Out' do
+        describe 'As a logged in user, when I visit the landing page' do
+          it 'I no longer see a link to Log In or Create an Account, but I see a link to Log Out' do
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+
+            visit login_path
+
+            fill_in :email, with: user.email
+            fill_in :password, with: user.password
+            click_button 'Log In'
+
+            visit '/'
+
+            expect(page).to_not have_button('Log In')
+            expect(page).to_not have_button('Create a New User')
+            expect(page).to have_button('Log Out')
+          end
+        end
+
+        describe 'When I click the button to Log out' do 
+          it 'I am taken to the landing page and I can see that the Logout button has change back to a log in button' do
+            user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+
+            visit login_path
+
+            fill_in :email, with: user.email
+            fill_in :password, with: user.password
+            click_button 'Log In'
+
+            visit '/'
+
+            click_button 'Log Out'
+
+            expect(current_path).to eq('/')
+
+            expect(page).to have_button('Log In')
+            expect(page).to have_button('Create a New User')
+            expect(page).to_not have_button('Log Out')
+          end
+        end
+      end
+    end
+
+    it 'has a list of existing users' do
+      user = create(:user, email: 'rebecka@gmail.com', password: 'password123')
+      user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+      user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+      user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
+
+      visit login_path
+
+      fill_in :email, with: user.email
+      fill_in :password, with: user.password
+      click_button 'Log In'
+
+      visit '/'
+
+      within '#existing_users' do
+        expect(page).to have_content('epintozzi@turing.edu')
+        expect(page).to have_content('mike@turing.edu')
+        expect(page).to have_content('mstang@turing.edu')
+      end
+    end
+  end
+
+  describe 'As a visitor' do
+    describe 'when I visit the landing page' do
+      it 'I do not see the section of the page that lists existing users' do
+        visit '/'
+
+        @user1 = create(:user, name: 'Erin', email: 'epintozzi@turing.edu')
+        @user2 = create(:user, name: 'Mike', email: 'mike@turing.edu')
+        @user3 = create(:user, name: 'Meg', email: 'mstang@turing.edu')
+
+        expect(page).to_not have_content('epintozzi@turing.edu')
+        expect(page).to_not have_content('mike@turing.edu')
+        expect(page).to_not have_content('mstang@turing.edu')
+      end
+
+      describe 'and then try to visit "/dashboard"' do
+        it 'I remain on the landing page and I see a message telling me that I must be logged in or registered to access my dashboard' do
+          visit '/'
+
+          visit '/dashboard'
+
+          expect(current_path).to eq('/')
+          expect(page).to have_content('You must be logged in or registered to access my dashboard')
         end
       end
     end

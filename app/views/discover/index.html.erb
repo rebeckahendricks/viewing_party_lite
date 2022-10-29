@@ -1,12 +1,12 @@
 <h2>Discover Movies</h2>
 
-<%= button_to 'Find Top Rated Movies', user_movies_path(@user), method: :get %>
+<%= button_to 'Find Top Rated Movies', movies_path, method: :get %>
 
 <br>
 <h4>OR</h4>
 <br>
 
-<%= form_with url: user_movies_path(@user), method: :get, local: true do |form| %>
+<%= form_with url: movies_path, method: :get, local: true do |form| %>
   <%= form.text_field :search, placeholder: 'Search by movie title' %>
   <%= form.submit 'Find Movies' %>
 <% end %>

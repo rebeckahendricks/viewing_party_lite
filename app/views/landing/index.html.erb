@@ -1,8 +1,12 @@
-<%= button_to "Log In", login_path, method: :get%><br>
-<%= button_to "Create a New User", "/register", method: :get %><br>
+<% if user_id_in_session.nil? %>
+  <%= button_to "Log In", login_path, method: :get%><br>
+  <%= button_to "Create a New User", "/register", method: :get %><br>
+<% else %>
+  <%= button_to "Log Out" %><br>
 
-<div id="existing_users"> Existing Users:<br>
+  <div id="existing_users"> Existing Users:<br>
   <% @users.each do |user| %>
-    <%= link_to "#{user.email}'s Dashboard", "/users/#{user.id}" %><br>
+    <p><%= user.email %></p>
   <% end %>
 </div>
+<% end %>

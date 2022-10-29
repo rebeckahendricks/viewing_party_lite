@@ -1,6 +1,6 @@
 <h2><%= @user.name %>'s Dashboard</h2>
 
-<%= button_to "Discover Movies", user_discover_index_path(@user), method: :get %>
+<%= button_to "Discover Movies", discover_path, method: :get %>
 
 <div id="viewing_parties">
   <h3> Viewing Parties </h3>
@@ -11,7 +11,7 @@
           <% end %>
 
           <%= image_tag("https://image.tmdb.org/t/p/w300/#{film.image_path}", id: "image_#{film.movie_id}") %><br>
-          <%= link_to "#{film.title}", user_movie_path(@user, film.movie_id) %><br>
+          <%= link_to "#{film.title}", movie_path(film.movie_id) %><br>
           <%= party.date.strftime('%B %d, %Y') %><br>
           <%= party.start_time.strftime('%I:%M %p') %><br>
           <% user_role = @user.user_viewing_parties.find do |user_viewing_party| %>
