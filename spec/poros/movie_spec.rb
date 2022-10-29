@@ -95,6 +95,6 @@ RSpec.describe Movie do
     expect(movie.summary).to include('launching a campaign of bloody revenge.')
     expect(movie.vote_average).to eq(8.715)
     expect(movie.genres).to eq(["Drama", "Crime"])
-    expect(movie.image_path).to eq('/rSPw7tgCH9c6NqICZef4kZjFOQ5.jpg')
+    expect(movie.image_path).to eq('/3bhkrj58Vtu7enYsRolD1fZdja1.jpg')
   end
 end

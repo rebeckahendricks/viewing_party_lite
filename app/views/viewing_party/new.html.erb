@@ -15,10 +15,10 @@
   <%= f.label :invitees, 'Invite Other Users' %><br>
   <% @users.each do |user| %>
     <div id="invitee_<%= "#{user.name}" %>">
-      <%# <% if user.id != @user.id %> %>
+      <% if user.id != session[:user_id] %>
         <%= check_box_tag('user_ids[]', user.id) %>
         <%= label_tag('invitee', "#{user.name} (#{user.email})") %>
-      <%# <% end %> %>
+      <% end %>
     </div>
   <% end %><br>
 

@@ -38,6 +38,8 @@ class MoviesFacade
 
   def self.find_movie_image(movie_id)
     data = MovieService.get_movie_image(movie_id)
-    data[:backdrops][0][:file_path]
+    if !data[:posters].empty?
+      data[:posters][0][:file_path]
+    end
   end
 end

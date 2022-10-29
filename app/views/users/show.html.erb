@@ -10,7 +10,10 @@
             <% movie.movie_id == party.movie_id %>
           <% end %>
 
-          <%= image_tag("https://image.tmdb.org/t/p/w300/#{film.image_path}", id: "image_#{film.movie_id}") %><br>
+          <% if film.image_path %>
+            <%= image_tag("https://image.tmdb.org/t/p/w300/#{film.image_path}", id: "image_#{film.movie_id}") %><br>
+          <% end %>
+          
           <%= link_to "#{film.title}", movie_path(film.movie_id) %><br>
           <%= party.date.strftime('%B %d, %Y') %><br>
           <%= party.start_time.strftime('%I:%M %p') %><br>
