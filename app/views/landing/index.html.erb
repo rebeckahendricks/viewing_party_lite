@@ -2,7 +2,9 @@
   <%= button_to "Log In", login_path, method: :get%><br>
   <%= button_to "Create a New User", "/register", method: :get %><br>
 <% else %>
+  <%= button_to "Discover Movies", discover_path, method: :get%><br>
   <%= button_to "Log Out" %><br>
+
 
   <div id="existing_users"> 
   <h4>Existing Users:</h4>
